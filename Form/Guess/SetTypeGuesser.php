@@ -55,7 +55,7 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
     {
         $classMetadata = $this->getMetadata($class);
         if (!$classMetadata) {
-            return;
+            return null;
         }
 
         /**
@@ -66,13 +66,13 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
         $fieldType = $metadata->getTypeOfField($property);
 
         if (!isset($this->registeredTypes[$fieldType])) {
-            return;
+            return null;
         }
 
         $fullClassName = $this->registeredTypes[$fieldType];
 
         if (!is_subclass_of($fullClassName, $this->parentSetTypeClass)) {
-            return;
+            return null;
         }
 
         // render checkboxes
