@@ -25,7 +25,7 @@ class SetTypeValidator extends ChoiceValidator
      *
      * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         /** @var SetType $constraint */
         if (!$constraint->class) {

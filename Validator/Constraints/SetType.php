@@ -21,7 +21,7 @@ class SetType extends Choice
     /**
      * {@inheritdoc}
      */
-    public function getRequiredOptions()
+    public function getRequiredOptions(): array
     {
         return ['class'];
     }

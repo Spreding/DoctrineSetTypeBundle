@@ -18,18 +18,18 @@ abstract class AbstractSetType extends Type
     /**
      * @var string $name Name of this type
      */
-    protected $name = '';
+    protected string $name = '';
 
     /**
      * @var array $choices Map of available SET type, key and label
      * @static
      */
-    protected static $choices = [];
+    protected static array $choices = [];
 
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if (!is_array($value) || count($value) <= 0) {
             return null;
@@ -53,7 +53,7 @@ abstract class AbstractSetType extends Type
      * @param AbstractPlatform $platform
      * @return array
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): array
     {
         if ($value === null || $value === '') {
             return [];
@@ -70,7 +70,7 @@ abstract class AbstractSetType extends Type
      * @param AbstractPlatform $platform
      * @return string
      */
-    public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         $values = implode(', ', array_map(function ($value) {
                     return "'{$value}'";
@@ -89,7 +89,7 @@ abstract class AbstractSetType extends Type
     /**
      * {@inheritdoc}
      */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }
@@ -97,7 +97,7 @@ abstract class AbstractSetType extends Type
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name ?: (new \ReflectionClass(get_class($this)))->getShortName();
     }
@@ -107,7 +107,7 @@ abstract class AbstractSetType extends Type
      *
      * @return array Values for the SET field
      */
-    public static function getChoices()
+    public static function getChoices(): array
     {
         return static::$choices;
     }
@@ -117,7 +117,7 @@ abstract class AbstractSetType extends Type
      *
      * @return array Values for the SET field
      */
-    public static function getValues()
+    public static function getValues(): array
     {
         return array_keys(static::getChoices());
     }

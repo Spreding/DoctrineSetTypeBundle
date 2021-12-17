@@ -21,12 +21,12 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
     /**
      * @var AbstractSetType[] $registeredTypes Array of registered types
      */
-    protected $registeredTypes = [];
+    protected array $registeredTypes = [];
 
     /**
      * @var string parentSetTypeClass
      */
-    protected $parentSetTypeClass;
+    protected string $parentSetTypeClass;
 
     /**
      * Constructor
@@ -51,7 +51,7 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
      * @param string $property
      * @return TypeGuess|null
      */
-    public function guessType($class, $property)
+    public function guessType($class, $property): ?TypeGuess
     {
         $classMetadata = $this->getMetadata($class);
         if (!$classMetadata) {
