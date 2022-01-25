@@ -99,7 +99,7 @@ abstract class AbstractSetType extends Type
      */
     public function getName(): string
     {
-        return $this->name ?: (new \ReflectionClass(get_class($this)))->getShortName();
+        return $this->name ?: static::class;
     }
 
     /**
