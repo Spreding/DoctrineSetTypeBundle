@@ -99,7 +99,7 @@ abstract class AbstractSetType extends Type
      */
     public function getName(): string
     {
-        return $this->name ?: static::class;
+        return $this->name ?: (string) \array_search(static::class, self::getTypesMap(), true);
     }
 
     /**
