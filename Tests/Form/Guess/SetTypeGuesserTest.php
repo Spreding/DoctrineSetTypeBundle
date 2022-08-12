@@ -1,6 +1,6 @@
 <?php
 
-namespace Okapon\DoctrineSetTypeBundle\Tests\DBAL\Types;
+namespace Okapon\DoctrineSetTypeBundle\Tests\Form\Guess;
 
 use Okapon\DoctrineSetTypeBundle\Form\Guess\SetTypeGuesser;
 use Phake;
