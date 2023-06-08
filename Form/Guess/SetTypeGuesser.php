@@ -2,7 +2,7 @@
 
 namespace Okapon\DoctrineSetTypeBundle\Form\Guess;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Guess\Guess;
@@ -31,11 +31,11 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
     /**
      * Constructor
      *
-     * @param ManagerRegistry $registry Registry
+     * @param Registry $registry Registry
      * @param array $registeredTypes Array of registered SET types
      * @param string $parentSetTypeClass
      */
-    public function __construct(ManagerRegistry $registry, array $registeredTypes, $parentSetTypeClass)
+    public function __construct(Registry $registry, array $registeredTypes, $parentSetTypeClass)
     {
         parent::__construct($registry);
 
