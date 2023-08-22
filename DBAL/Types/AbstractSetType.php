@@ -5,6 +5,8 @@ namespace Okapon\DoctrineSetTypeBundle\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\Type;
+use InvalidArgumentException;
+use function array_search;
 
 /**
  * AbstractSetType
@@ -29,7 +31,7 @@ abstract class AbstractSetType extends Type
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (!is_array($value) || count($value) <= 0) {
             return null;
@@ -37,7 +39,7 @@ abstract class AbstractSetType extends Type
 
         $diff = array_diff($value, $this->getValues());
         if (count($diff) > 0) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                     'Invalid value "%s". It is not defined in "%s::$choices"',
                     implode(',', $diff),
                     get_class($this)
@@ -58,29 +60,24 @@ abstract class AbstractSetType extends Type
         if ($value === null || $value === '') {
             return [];
         }
-        if (strpos($value, ',') === false) {
+        if (!str_contains($value, ',')) {
             return [$value];
         }
 
         return explode(',', $value);
     }
 
-    /**
-     * @param array $fieldDeclaration
-     * @param AbstractPlatform $platform
-     * @return string
-     */
-    public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
+    public function getSqlDeclaration(array $column, AbstractPlatform $platform): string
     {
         $values = implode(', ', array_map(function ($value) {
-                    return "'{$value}'";
+                    return "'$value'";
                 },
                 $this->getValues()
             )
         );
 
         if (!$platform instanceof MySqlPlatform) {
-            return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+            return $platform->getClobTypeDeclarationSQL($column);
         }
 
         return sprintf('SET(%s)', $values);
@@ -99,7 +96,7 @@ abstract class AbstractSetType extends Type
      */
     public function getName(): string
     {
-        return $this->name ?: (string) \array_search(static::class, self::getTypesMap(), true);
+        return $this->name ?: (string) array_search(static::class, self::getTypesMap(), true);
     }
 
     /**

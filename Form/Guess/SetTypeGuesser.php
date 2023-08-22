@@ -8,7 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 use Okapon\DoctrineSetTypeBundle\DBAL\Types\AbstractSetType;
-use Okapon\DoctrineSetTypeBundle\Exception\InvalidClassSpecifiedException;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -23,9 +22,6 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
      */
     protected array $registeredTypes = [];
 
-    /**
-     * @var string parentSetTypeClass
-     */
     protected string $parentSetTypeClass;
 
     /**
@@ -49,9 +45,10 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
     /**
      * @param string $class
      * @param string $property
+     *
      * @return TypeGuess|null
      */
-    public function guessType($class, $property): ?TypeGuess
+    public function guessType(string $class, string $property): ?TypeGuess
     {
         $classMetadata = $this->getMetadata($class);
         if (!$classMetadata) {
@@ -62,7 +59,7 @@ class SetTypeGuesser extends DoctrineOrmTypeGuesser
          * @var \Doctrine\ORM\Mapping\ClassMetadata $metadata
          * @var string $name
          */
-        list($metadata) = $classMetadata;
+        [$metadata] = $classMetadata;
         $fieldType = $metadata->getTypeOfField($property);
 
         if (!isset($this->registeredTypes[$fieldType])) {

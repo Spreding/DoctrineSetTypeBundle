@@ -2,6 +2,8 @@
 
 namespace Okapon\DoctrineSetTypeBundle\Exception;
 
-class InvalidClassSpecifiedException extends \LogicException
+use LogicException;
+
+class InvalidClassSpecifiedException extends LogicException
 {
 }

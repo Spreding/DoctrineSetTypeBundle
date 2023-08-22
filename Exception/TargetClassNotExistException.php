@@ -2,6 +2,8 @@
 
 namespace Okapon\DoctrineSetTypeBundle\Exception;
 
-class TargetClassNotExistException extends \LogicException
+use LogicException;
+
+class TargetClassNotExistException extends LogicException
 {
 }
